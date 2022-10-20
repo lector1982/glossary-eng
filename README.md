@@ -1,24 +1,12 @@
 # glossary-eng
 
-## Project setup
-```
-npm install
-```
+## Что сделать
 
-### Compiles and hot-reloads for development
 ```
-npm run serve
+1. Добавление раздела
+2. Проверка формы на добавление раздела
+3. Добавление слова
+4. Проверка формы на добавление раздела
+5. Выбор типа игры
+6. Выбор раздела
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
