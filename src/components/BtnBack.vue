@@ -1,11 +1,11 @@
 <template>
-	<div class="title-back">
+	<div class="title-back" :class="color">
 		<button @click="$router.back()" class="btn-back">
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-8 h-8">
 			<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
 		</svg>
 		</button>
-		<h6 class="font-semibold text-2xl">{{ title }}</h6>
+		<h6>{{ title }}</h6>
 		<div class="empty"></div>
 	</div>
 </template>
@@ -14,7 +14,8 @@
 
 export default {
 	props: {
-    title: String
+    title: String,
+		color: String
   },
 
 }
@@ -29,6 +30,11 @@ export default {
 	font-size: 30px;
 	font-weight: 500;
 	align-items: center;
+	color: green
+}
+.title-back.white,
+.white .btn-back {
+	color:#fff;
 }
 .btn-back {
 	color: #59A4F2;
@@ -36,5 +42,8 @@ export default {
 	height: 40px;
 	background: none;
 	border:none;
+}
+.empty {
+	width: 40px;
 }
 </style>

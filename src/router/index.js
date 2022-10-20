@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView';
 import ModeView from '@/views/ModeView';
 import AddCategoryView from '@/views/AddCategoryView';
+import AddWordView from '@/views/AddWordView';
 
 const routes = [
 	{
@@ -15,6 +16,10 @@ const routes = [
 	{
 		path: '/add_cat',
 		component: AddCategoryView
+	},
+	{
+		path: '/add_word',
+		component: AddWordView
 	},
 ]
 

@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage";
-import { getFirestore, collection } from "firebase/firestore";
+// import { getStorage } from "firebase/storage";
+// import { getFirestore, collection } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyCB6Drp2rYfaAHEDWlvPfQAG2xu6PXA8t4",
@@ -14,8 +15,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
-const categoriesRef = collection(db, 'categories');
+// const categoriesRef = collection(db, 'categories');
+// const wordsRef = collection(db, 'words');
 
-const storage = getStorage(app);
+// const storage = getStorage(app);
 
-export default { categoriesRef, storage };
+export default db;

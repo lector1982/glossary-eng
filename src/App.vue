@@ -33,5 +33,18 @@ button {
 .slide-left-leave-active {
 	transition: .5s ease-in-out;
 }
+.wrapper {
+	display: flex;
+	flex-direction: column;
+}
+.page {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: flex-start;
+	height: calc(100vh - 100px);
+	overflow-y: auto;
+	padding: 0 10px;
+}
 </style>
 

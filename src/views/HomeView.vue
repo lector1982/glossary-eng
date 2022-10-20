@@ -3,7 +3,7 @@
 		<router-link class="btn-main" to="/mode">Играть</router-link>
 		<!-- <router-link class="btn-main" to="/mode">Настройки</router-link> -->
 		<router-link class="btn-main" to="/add_cat">Добавить раздел</router-link>
-		<!-- <router-link class="btn-main" to="/add_word">Добавить слово</router-link> -->
+		<router-link class="btn-main" to="/add_word">Добавить слово</router-link>
 	</div>
 </template>
 
