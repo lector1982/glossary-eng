@@ -1,6 +1,6 @@
 <template>
 <router-view v-slot="{Component}">
-	<transition name="slide-left" mode="out-in" appear>
+	<transition name="fade" mode="out-in" appear>
 		<component :is="Component" />
 	</transition>
 </router-view>
@@ -19,7 +19,10 @@
 }
 #app {
 	height: 100vh;
+	max-width: 800px;
+	margin: 0 auto;
 	font-family: 'Montserrat', sans-serif;
+	overflow: hidden;
 }
 button {
 	cursor: pointer;
@@ -31,7 +34,16 @@ button {
 }
 .slide-left-enter-active,
 .slide-left-leave-active {
-	transition: .5s ease-in-out;
+	transition: .3s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+	transition: .3s ease-in-out;
 }
 .wrapper {
 	display: flex;
@@ -42,9 +54,23 @@ button {
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: flex-start;
+	align-content: flex-start;
 	height: calc(100vh - 100px);
 	overflow-y: auto;
 	padding: 0 10px;
+	position: relative;
+	scrollbar-width: thin;
+	scrollbar-color: #59A4F2 #d5d5d5;
+}
+.page::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+.page::-webkit-scrollbar-track {
+	background: #d5d5d5;
+}
+.page::-webkit-scrollbar-thumb {
+	background-color: #59A4F2;
 }
 </style>
 

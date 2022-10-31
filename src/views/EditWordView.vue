@@ -1,13 +1,13 @@
 <template>
   <div class="wrapper page__form">
 
-		<BtnBack title="Добавить слово" color="white" />
+		<BtnBack title="Редактировать слово" color="white" />
 
 		<div class="page">
-
 			<Loader v-if="loader" />
 
-			<form @submit.prevent="createWord" class="form">
+
+			<form @submit.prevent="updateWord" class="form">
 				<label>
 					<h5>Раздел</h5>
 					<select ref="category_select" @input="selectCategory" required>
@@ -15,7 +15,7 @@
 						<option
 						v-for="category in categories"
 						:key="category.id"
-						:value="category.id">{{ category.name }}</option>
+						:value="category.id" :selected="category.id == currentCategory">{{ category.name }}</option>
 					</select>
 				</label>
 				<label>
@@ -38,7 +38,6 @@
 					<button type="submit">Отправить</button>
 				</div>
 			</form>
-
 		</div>
 
 	</div>
@@ -49,90 +48,90 @@
 import BtnBack from '@/components/BtnBack.vue';
 import Loader from '@/components/LoaderForm.vue';
 
-import db from '@/firebase';
-import { addDoc, onSnapshot, collection  } from "firebase/firestore";
+import db from '@/firebase'
+import { onSnapshot, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
 
 const categoriesRef = collection(db, 'categories');
-const wordsRef = collection(db, 'words');
+
 
 export default {
 	components: {BtnBack, Loader},
 	data() {
 		return {
+			categories: [],
+			loader: false,
+			id: null,
+			docRef: null,
 			name: '',
 			name_en: '',
 			imgUrl: '',
-			categories: '',
-			category: '',
-			loader: true,
-			hard: false,
-			knew: false
+			currentCategory: '',
+			category: ''
 		}
 	},
 	methods: {
+		async getWord() {
+			this.docRef = doc(db, "words", this.id);
+			const docSnap = await getDoc(this.docRef);
+			this.name = docSnap.data().name;
+			this.name_en = docSnap.data().name_en;
+			this.imgUrl = docSnap.data().imgUrl;
+			this.currentCategory = docSnap.data().category;
+			this.loader = false;
+		},
 		selectCategory(e) {
 			this.category = e.target.value;
 		},
 		async getCategories() {
-				onSnapshot(categoriesRef, (querySnapshot) => {
-				let cats = [];
-				querySnapshot.forEach((doc) => {
-						cats.push({
+			onSnapshot(categoriesRef, (querySnapshot) => {
+			let cats = [];
+			querySnapshot.forEach((doc) => {
+					cats.push({
 						id: doc.id,
-						name: doc.data().name
+						name: doc.data().name,
+						name_en: doc.data().name_en,
+						imgUrl: doc.data().imgUrl
 					});
-				});
-				this.categories = cats;
-				this.loader = false;
 			});
+			this.categories = cats;
+			this.loader = false;
+		});
 		},
-		async createWord() {
+		async updateWord() {
 			this.loader = true;
-			await addDoc(wordsRef, {
+			if( this.category == '' ) this.category = this.currentCategory;
+			await updateDoc(this.docRef, {
 				name: this.name,
 				name_en: this.name_en,
 				imgUrl: this.imgUrl,
-				category: this.category,
-				hard: this.hard,
-				knew: this.knew,
+				category: this.category
 			});
-			this.name = this.name_en = this.imgUrl = this.category = '';
 			this.loader = false;
-			this.$refs.category_select.selectedIndex = 0;
-	},
-	onPickFile() {
+			this.id = null;
+		},
+		onPickFile() {
 			this.$refs.fileInput.click();
+		},
+		onImgUpload(e) {
+			let file = e.target.files[0];
+			const reader = new FileReader();
+			reader.onloadend = () => {
+			const base64String = reader.result;
+				this.imgUrl = base64String;
+			};
+			reader.readAsDataURL(file);
+}
 	},
-	onImgUpload(e) {
-		let file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-    const base64String = reader.result
-		this.imgUrl = base64String;
-    };
-    reader.readAsDataURL(file);
- }
-},
-created() {
+	created() {
 		this.loader = true;
+		this.id = this.$route.params.id;
+		this.getWord();
 		this.getCategories();
+
 	}
 }
 </script>
 
 <style>
-.form select {
-	width: 100%;
-	height: 50px;
-	font-size:24px;
-	border: none;
-	background: none;
-	outline: none;
-	color:#fff;
-	padding: 0;
-	border-bottom: 2px solid #fff;
-}
-.form select option {
-	color: #59A4F2;
-}
+
 </style>

@@ -5,6 +5,8 @@
 
 		<div class="page">
 
+			<Loader v-if="loader" />
+
 			<form @submit.prevent="createCategory" class="form">
 				<label>
 					<h5>Название</h5>
@@ -35,6 +37,7 @@
 
 <script>
 import BtnBack from '@/components/BtnBack.vue';
+import Loader from '@/components/LoaderForm.vue';
 
 import db from '@/firebase';
 import { addDoc, collection } from "firebase/firestore";
@@ -45,16 +48,18 @@ const categoriesRef = collection(db, 'categories');
 
 
 export default {
-	components: {BtnBack},
+	components: {BtnBack, Loader},
 	data() {
 		return {
 			name: '',
 			name_en: '',
-			imgUrl: ''
+			imgUrl: '',
+			loader: false
 		}
 	},
 	methods: {
 		async createCategory() {
+			this.loader = true;
 			console.log('Create doc');
 			//console.log(storage);
 
@@ -69,11 +74,15 @@ export default {
 		// });
 
 
-	const addedDoc = await addDoc(categoriesRef, this.$data);
+	const addedDoc = await addDoc(categoriesRef, {
+				name: this.name,
+				name_en: this.name_en,
+				imgUrl: this.imgUrl
+	});
 	this.name = this.name_en = this.imgUrl = '';
 	console.log("Document written with ID: ", addedDoc.id);
 	console.log(addedDoc);
-
+	this.loader = false;
 	},
 	onPickFile() {
 			this.$refs.fileInput.click();
@@ -135,7 +144,8 @@ export default {
 	color: #59A4F2;
 	border:none;
 	border-radius: 4px;
-	font-size: 20px;
+	font-size: 16px;
+	padding: 0 10px;
 }
 .preview-img {
 	width: 55%;
@@ -146,8 +156,8 @@ export default {
 }
 .form-btn__block button {
 	width: 100%;
-	max-width: 300px;
-	height: 70px;
+	max-width: 250px;
+	height: 65px;
 	background: #fff;
 	color: #59A4F2;
 	border:none;

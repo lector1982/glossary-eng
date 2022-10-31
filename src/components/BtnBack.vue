@@ -1,9 +1,9 @@
 <template>
 	<div class="title-back" :class="color">
 		<button @click="$router.back()" class="btn-back">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-8 h-8">
-			<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-		</svg>
+			<svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+			</svg>
 		</button>
 		<h6>{{ title }}</h6>
 		<div class="empty"></div>
