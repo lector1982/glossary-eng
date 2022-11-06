@@ -2,35 +2,37 @@
 	<div class="page__main">
 		<img class="icon-logo" src="@/assets/icon.png" alt="">
 		<router-link class="btn-main" to="/select_game">Играть</router-link>
-		<router-link class="btn-main" to="/add_cat">Добавить раздел</router-link>
-		<router-link class="btn-main" to="/edit_cat">Редактировать раздел</router-link>
-		<router-link class="btn-main" to="/add_word">Добавить слово</router-link>
+		<router-link class="btn-main" to="/add_cat" v-if="user">Добавить раздел</router-link>
+		<router-link class="btn-main" to="/edit_cat" v-if="user">Редактировать раздел</router-link>
+		<router-link class="btn-main" to="/add_word" v-if="user">Добавить слово</router-link>
+		<button @click="signInWithGoogle">Google</button>
 	</div>
 </template>
 
 <script>
-// import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-// const provider = new GoogleAuthProvider();
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
-// const auth = getAuth();
-// signInWithPopup(auth, provider)
-//   .then((result) => {
-//     // This gives you a Google Access Token. You can use it to access the Google API.
-//     const credential = GoogleAuthProvider.credentialFromResult(result);
-//     const token = credential.accessToken;
-//     // The signed-in user info.
-//     const user = result.user;
-// 		console.log(token, user)
-//   }).catch((error) => {
-//     // Handle Errors here.
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//     // The email of the user's account used.
-//     const email = error.customData.email;
-//     // The AuthCredential type that was used.
-//     const credential = GoogleAuthProvider.credentialFromError(error);
-//     console.log(errorCode, errorMessage, email, credential)
-//   });
+
+export default {
+	data() {
+		return {
+			user: null
+		}
+	},
+	methods: {
+		signInWithGoogle() {
+			const provider = new GoogleAuthProvider();
+			signInWithPopup(getAuth(), provider)
+			.then((result) => {
+				console.log(result.user)
+				this.user = result.user;
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+		}
+	}
+}
 </script>
 
 <style>
@@ -43,7 +45,7 @@
 	padding: 15px;
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
 	height: 100vh;
 	overflow-y: auto;
